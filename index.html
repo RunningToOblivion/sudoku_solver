@@ -32,16 +32,20 @@
       border: 1px solid rgba(124, 127, 147, 0.2);
       background-color:#dce0e8;
     }
-    input {
+    .grid_elem {
       width: 100%;
       height: 100%;
-      font-size: 32px;
+      font-size: 6vmin;
       text-align: center;
       border: none;
       padding: 0;
       margin: 0;
       background-color:#eff1f5;
       color:#4c4f69;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     button {
@@ -58,17 +62,23 @@
       justify-content: space-around;
       align-items: center;
       padding: 0.5vmin;
+      box-shadow: -3px 3px 15px rgba(0,0,0,0.4);
+      border: 2px solid rgba(124, 127, 147, 0.8);
     }
     .digit {
       display: inline-block;
-      font-size: 1.25rem;
+      font-size: 6vmin;
       cursor: pointer;
-      width: 2rem;
-      height: 2rem;
+      width: 6vmin;
+      height: 6vmin;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
     .digit:hover {
-      background-color: rgba(0, 255, 255, 0.4);
+      background-color: rgba(220, 138, 120, 0.2);
     }
   </style>
   <script>
@@ -83,7 +93,7 @@
     const digits = document.getElementsByClassName("digit");
     for (let i = 0; i < digits.length; i++) {
       digits[i].onclick=function(event) {
-        input.value = digits[i].textContent;
+        input.textContent = digits[i].textContent;
         hideDigitRow();
       }};
       hideDigitRow();
@@ -93,7 +103,9 @@
         positionDigitRow(digitRow, input);
       }
     }
-
+    function convertRemToPixels(rem) {    
+    return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    }
     function hideDigitRow() {
       const digitRow = document.getElementById("digitRow");
       digitRow.style.display = "none";
@@ -106,7 +118,7 @@
         digitRow.style.top = inputRect.bottom + "px";
         digitRow.style.left = inputRect.left + "px";
       } else {
-        digitRow.style.top = (inputRect.top +window.scrollY- digitRow.offsetHeight) + "px";
+        digitRow.style.top = (inputRect.top +window.scrollY- digitRow.offsetHeight - convertRemToPixels(0.2)) + "px";
         digitRow.style.left = inputRect.left+window.scrollX + "px";
       }
     }
@@ -116,8 +128,8 @@
       // Loop through each row of the table
       const rows = document.querySelectorAll('tbody tr');
       rows.forEach(row => {
-        const cells = row.querySelectorAll('td input');
-        const rowData = Array.from(cells).map(cell => parseInt(cell.value) || 0);
+        const cells = row.querySelectorAll('td div');
+        const rowData = Array.from(cells).map(cell => parseInt(cell.textContent) || 0);
         grid.push(rowData);
       });
 
@@ -133,11 +145,11 @@
       console.log(solvedGrid);
 
       // Update the input fields with the solved grid values
-      const inputFields = document.querySelectorAll('tbody tr td input');
+      const inputFields = document.querySelectorAll('tbody tr td div');
       inputFields.forEach((input, index) => {
         const row = Math.floor(index / 9);
         const col = index % 9;
-        input.value = solvedGrid[row][col] !== 0 ? solvedGrid[row][col] : '';
+        input.textContent = solvedGrid[row][col] !== 0 ? solvedGrid[row][col] : '';
       });
 
       clearErrorMessage();
@@ -321,9 +333,9 @@
       errorElement.style.display = 'none';
     }
     function clearGrid(){
-      const inputFields = document.querySelectorAll('tbody tr td input');
+      const inputFields = document.querySelectorAll('tbody tr td div');
       inputFields.forEach((input, index) => {
-        input.value = '';
+        input.textContent = '';
       });
     }
   </script>
@@ -346,103 +358,103 @@
     <tbody>
       <!-- Create a 9x9 grid of input fields -->
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
+        <td><div class="grid_elem" onclick="toggleDigitRow(event)"></div></td>
       </tr>
       <!-- Repeat the above row 8 more times -->
       <!-- ... -->
