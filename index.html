@@ -113,15 +113,32 @@
 
     function positionDigitRow(digitRow, input) {
       const inputRect = input.getBoundingClientRect();
-      console.log(input.parentNode.parentNode,input.parentNode,input)
-      if (input.parentNode.parentNode==input.parentNode.parentNode.parentNode.firstElementChild ){
-        digitRow.style.top = inputRect.bottom + "px";
-        digitRow.style.left = inputRect.left + "px";
-      } else {
-        digitRow.style.top = (inputRect.top +window.scrollY- digitRow.offsetHeight - convertRemToPixels(0.2)) + "px";
-        digitRow.style.left = inputRect.left+window.scrollX + "px";
+      const inputCenterX = inputRect.left + inputRect.width / 2;
+      const digitRowWidth = digitRow.offsetWidth;
+
+      let digitRowLeft = inputCenterX - digitRowWidth / 2;
+      const viewportWidth = window.innerWidth;
+
+      // Check if digitRow overflows the viewport on the left side
+      if (digitRowLeft < 0) {
+        digitRowLeft = 0; // Align to the left edge of the viewport
       }
+
+      // Check if digitRow overflows the viewport on the right side
+      if (digitRowLeft + digitRowWidth > viewportWidth) {
+        digitRowLeft = viewportWidth - digitRowWidth; // Align to the right edge of the viewport
+      }
+
+      // Keep the vertical positioning
+      if (input.parentNode.parentNode == input.parentNode.parentNode.parentNode.firstElementChild) {
+        digitRow.style.top = inputRect.bottom + "px";
+      } else {
+        digitRow.style.top = inputRect.top + window.scrollY - digitRow.offsetHeight - convertRemToPixels(0.2) + "px";
+      }
+
+      digitRow.style.left = digitRowLeft + window.scrollX + "px";
     }
+
     function solveSudoku() {
       const grid = [];
 
