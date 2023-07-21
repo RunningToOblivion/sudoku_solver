@@ -44,13 +44,72 @@
       color:#4c4f69;
     }
 
-    .submit-btn {
+    button {
       width:10vmin;
       height:5vmin;
       margin-top: 10px;
     }
+    #digitRow {
+      display: none;
+      position: absolute;
+      height: 6.5vmin;
+      background-color: white;
+      gap: 5px;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.5vmin;
+    }
+    .digit {
+      display: inline-block;
+      font-size: 1.25rem;
+      cursor: pointer;
+      width: 2rem;
+      height: 2rem;
+      text-align: center;
+    }
+    .digit:hover {
+      background-color: rgba(0, 255, 255, 0.4);
+    }
   </style>
   <script>
+        //const digitRow = document.getElementById("digitRow");
+    //const digits = document.getElementsByClassName("digit");
+    //console.log(digits)
+    function toggleDigitRow(event) {
+      const input = event.target;
+      const digitRow = document.getElementById("digitRow");
+      const isDigitRowVisible = digitRow.style.display === "flex";
+      
+    const digits = document.getElementsByClassName("digit");
+    for (let i = 0; i < digits.length; i++) {
+      digits[i].onclick=function(event) {
+        input.value = digits[i].textContent;
+        hideDigitRow();
+      }};
+      hideDigitRow();
+      
+      if (!isDigitRowVisible) {
+        digitRow.style.display = "flex";
+        positionDigitRow(digitRow, input);
+      }
+    }
+
+    function hideDigitRow() {
+      const digitRow = document.getElementById("digitRow");
+      digitRow.style.display = "none";
+    }
+
+    function positionDigitRow(digitRow, input) {
+      const inputRect = input.getBoundingClientRect();
+      console.log(input.parentNode.parentNode,input.parentNode,input)
+      if (input.parentNode.parentNode==input.parentNode.parentNode.parentNode.firstElementChild ){
+        digitRow.style.top = inputRect.bottom + "px";
+        digitRow.style.left = inputRect.left + "px";
+      } else {
+        digitRow.style.top = (inputRect.top +window.scrollY- digitRow.offsetHeight) + "px";
+        digitRow.style.left = inputRect.left+window.scrollX + "px";
+      }
+    }
     function solveSudoku() {
       const grid = [];
 
@@ -261,118 +320,138 @@
       errorElement.textContent = '';
       errorElement.style.display = 'none';
     }
+    function clearGrid(){
+      const inputFields = document.querySelectorAll('tbody tr td input');
+      inputFields.forEach((input, index) => {
+        input.value = '';
+      });
+    }
   </script>
 </head>
 <body>
   <h1>Sudoku Grid Input</h1>
   <p>Please enter the numbers for the Sudoku grid:</p>
+  <div id="digitRow">
+      <span class="digit">1</span>
+      <span class="digit">2</span>
+      <span class="digit">3</span>
+      <span class="digit">4</span>
+      <span class="digit">5</span>
+      <span class="digit">6</span>
+      <span class="digit">7</span>
+      <span class="digit">8</span>
+      <span class="digit">9</span>
+  </div>
   <table>
     <tbody>
       <!-- Create a 9x9 grid of input fields -->
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <tr>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
-        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="handleCellClick(this)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
+        <td><input type="text" maxlength="1" pattern="[1-9]" onclick="toggleDigitRow(event)"></td>
       </tr>
       <!-- Repeat the above row 8 more times -->
       <!-- ... -->
     </tbody>
   </table>
-  <button class="submit-btn" onclick="solveSudoku()">Solve</button>
+  <div class="buttons">
+    <button onclick="solveSudoku()">Solve</button>
+    <button onclick="clearGrid()">Clear</button>
+  </div>
   <div id="error-message" class="error"></div>
 </body>
 </html>
