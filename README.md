@@ -1,6 +1,6 @@
 # Sudoku Solver Website
 
-This project is a Sudoku solver website that allows users to input Sudoku grids in order to solve them. The website utilizes a backtracking algorithm to solve the Sudoku puzzles.
+This project is a Sudoku solver website that allows users to input Sudoku grids in order to solve them. The website uses a backtracking algorithm to solve the Sudoku puzzles.
 
 ## Installation
 
