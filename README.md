@@ -1,6 +1,6 @@
 # Sudoku Solver Website
 
-This project is a Sudoku solver website that allows users to input Sudoku grids either by clicking on the squares or by typing in the numbers. The website utilizes a backtracking algorithm to solve the Sudoku puzzles.
+This project is a Sudoku solver website that allows users to input Sudoku grids in order to solve them. The website utilizes a backtracking algorithm to solve the Sudoku puzzles.
 
 ## Installation
 
@@ -28,6 +28,5 @@ You can also use the github.io address to use it online
 
 1. Open the Sudoku Solver website in your web browser.
 2. Click on the squares to input the numbers of the Sudoku grid.
-3. Alternatively, you can directly type in the numbers into the squares.
-4. Once the grid is filled, click the "Solve" button to automatically solve the Sudoku puzzle.
-5. If the input grid is not valid or there is no solution, an error message will be displayed.
+3. Once the grid is filled, click the "Solve" button to automatically solve the Sudoku puzzle.
+4. If the input grid is not valid or there is no solution, an error message will be displayed.
